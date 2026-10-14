@@ -197,6 +197,23 @@ export declare const ordersTable: import("drizzle-orm/pg-core").PgTableWithColum
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
+        customerUserId: import("drizzle-orm/pg-core").PgColumn<{
+            name: "customer_user_id";
+            tableName: "afrocart_orders";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
         customerName: import("drizzle-orm/pg-core").PgColumn<{
             name: "customer_name";
             tableName: "afrocart_orders";
@@ -301,6 +318,74 @@ export declare const ordersTable: import("drizzle-orm/pg-core").PgTableWithColum
         }, {}, {}>;
         status: import("drizzle-orm/pg-core").PgColumn<{
             name: "status";
+            tableName: "afrocart_orders";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        paymentMethod: import("drizzle-orm/pg-core").PgColumn<{
+            name: "payment_method";
+            tableName: "afrocart_orders";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        paymentDetails: import("drizzle-orm/pg-core").PgColumn<{
+            name: "payment_details";
+            tableName: "afrocart_orders";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        paymentReference: import("drizzle-orm/pg-core").PgColumn<{
+            name: "payment_reference";
+            tableName: "afrocart_orders";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        paymentStatus: import("drizzle-orm/pg-core").PgColumn<{
+            name: "payment_status";
             tableName: "afrocart_orders";
             dataType: "string";
             columnType: "PgText";
@@ -636,6 +721,115 @@ export declare const notificationsTable: import("drizzle-orm/pg-core").PgTableWi
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
+        recipientUserId: import("drizzle-orm/pg-core").PgColumn<{
+            name: "recipient_user_id";
+            tableName: "afrocart_notifications";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+    };
+    dialect: "pg";
+}>;
+export declare const paymentMethodsTable: import("drizzle-orm/pg-core").PgTableWithColumns<{
+    name: "afrocart_payment_methods";
+    schema: undefined;
+    columns: {
+        method: import("drizzle-orm/pg-core").PgColumn<{
+            name: "method";
+            tableName: "afrocart_payment_methods";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            isPrimaryKey: true;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        label: import("drizzle-orm/pg-core").PgColumn<{
+            name: "label";
+            tableName: "afrocart_payment_methods";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        details: import("drizzle-orm/pg-core").PgColumn<{
+            name: "details";
+            tableName: "afrocart_payment_methods";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        enabled: import("drizzle-orm/pg-core").PgColumn<{
+            name: "enabled";
+            tableName: "afrocart_payment_methods";
+            dataType: "boolean";
+            columnType: "PgBoolean";
+            data: boolean;
+            driverParam: boolean;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        updatedAt: import("drizzle-orm/pg-core").PgColumn<{
+            name: "updated_at";
+            tableName: "afrocart_payment_methods";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
     };
     dialect: "pg";
 }>;
@@ -711,6 +905,7 @@ export declare const insertProductSchema: z.ZodObject<{
     in: {};
 }>;
 export declare const insertOrderSchema: z.ZodObject<{
+    customerUserId: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     customerName: z.ZodString;
     customerAddress: z.ZodString;
     items: z.ZodType<import("drizzle-zod").Json, unknown, z.core.$ZodTypeInternals<import("drizzle-zod").Json, unknown>>;
@@ -718,6 +913,10 @@ export declare const insertOrderSchema: z.ZodObject<{
     deliveryFee: z.ZodString;
     total: z.ZodString;
     status: z.ZodOptional<z.ZodString>;
+    paymentMethod: z.ZodOptional<z.ZodString>;
+    paymentDetails: z.ZodOptional<z.ZodString>;
+    paymentReference: z.ZodOptional<z.ZodString>;
+    paymentStatus: z.ZodOptional<z.ZodString>;
     riderName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     riderType: z.ZodOptional<z.ZodString>;
     eta: z.ZodString;
@@ -743,6 +942,7 @@ export declare const insertNotificationSchema: z.ZodObject<{
     kind: z.ZodString;
     read: z.ZodOptional<z.ZodBoolean>;
     audience: z.ZodOptional<z.ZodString>;
+    recipientUserId: z.ZodOptional<z.ZodNullable<z.ZodString>>;
 }, {
     out: {};
     in: {};
@@ -759,5 +959,6 @@ export type InsertOrder = z.infer<typeof insertOrderSchema>;
 export type Order = typeof ordersTable.$inferSelect;
 export type Rider = typeof ridersTable.$inferSelect;
 export type Notification = typeof notificationsTable.$inferSelect;
+export type PaymentMethod = typeof paymentMethodsTable.$inferSelect;
 export type Category = typeof categoriesTable.$inferSelect;
 //# sourceMappingURL=afrocart.d.ts.map

@@ -121,7 +121,7 @@ paths:
     get:
       operationId: listOrders
       tags: [orders]
-      summary: List orders for the current demo role
+      summary: List orders visible to the authenticated account
       parameters:
         - name: role
           in: query
@@ -205,6 +205,101 @@ paths:
                 $ref: "#/components/schemas/Order"
         "404":
           description: Order not found
+  /orders/{id}/payment-submitted:
+    post:
+      operationId: submitOrderPayment
+      tags: [orders]
+      summary: Tell the market that payment was sent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Order awaiting payment confirmation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "409":
+          description: Payment was already submitted or confirmed
+  /orders/{id}/payment-confirm:
+    post:
+      operationId: confirmOrderPayment
+      tags: [orders]
+      summary: Confirm that an order payment has arrived
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Payment confirmed; order processing may begin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "409":
+          description: Customer has not submitted payment for confirmation
+  /payment-methods:
+    get:
+      operationId: listPaymentMethods
+      tags: [operations]
+      summary: List customer payment destinations enabled by the admin
+      responses:
+        "200":
+          description: Enabled payment methods
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentMethod"
+  /admin/payment-methods:
+    get:
+      operationId: listAdminPaymentMethods
+      tags: [operations]
+      summary: List all payment methods and their setup status
+      responses:
+        "200":
+          description: Payment method configuration
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentMethod"
+  /admin/payment-methods/{method}:
+    put:
+      operationId: updatePaymentMethod
+      tags: [operations]
+      summary: Save or enable a manual payment method
+      parameters:
+        - name: method
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [paypal, zelle, bank]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentMethodInput"
+      responses:
+        "200":
+          description: Saved payment method
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentMethod"
+        "400":
+          description: Payment details are required to enable this method
   /dashboard/summary:
     get:
       operationId: getDashboardSummary
@@ -383,7 +478,7 @@ components:
         completed: { type: boolean }
     Order:
       type: object
-      required: [id, customerName, customerAddress, items, subtotal, deliveryFee, total, status, riderName, riderType, createdAt, eta, events]
+      required: [id, customerName, customerAddress, items, subtotal, deliveryFee, total, status, paymentMethod, paymentDetails, paymentReference, paymentStatus, riderName, riderType, createdAt, eta, events]
       properties:
         id: { type: integer }
         customerName: { type: string }
@@ -396,7 +491,15 @@ components:
         total: { type: number }
         status:
           type: string
-          enum: [received, preparing, ready, picked_up, in_transit, delivered]
+          enum: [awaiting_payment, received, preparing, ready, picked_up, in_transit, delivered]
+        paymentMethod:
+          type: string
+          enum: [paypal, zelle, bank]
+        paymentDetails: { type: string }
+        paymentReference: { type: string }
+        paymentStatus:
+          type: string
+          enum: [pending, awaiting_confirmation, received]
         riderName: { type: ["string", "null"] }
         riderType:
           type: string
@@ -406,9 +509,27 @@ components:
         events:
           type: array
           items: { $ref: "#/components/schemas/OrderEvent" }
+    PaymentMethod:
+      type: object
+      required: [method, label, details, enabled, updatedAt]
+      properties:
+        method:
+          type: string
+          enum: [paypal, zelle, bank]
+        label: { type: string }
+        details: { type: string }
+        enabled: { type: boolean }
+        updatedAt: { type: ["string", "null"] }
+    PaymentMethodInput:
+      type: object
+      required: [label, details, enabled]
+      properties:
+        label: { type: string }
+        details: { type: string }
+        enabled: { type: boolean }
     OrderInput:
       type: object
-      required: [customerName, customerAddress, items]
+      required: [customerName, customerAddress, items, paymentMethod]
       properties:
         customerName: { type: string }
         customerAddress: { type: string }
@@ -420,6 +541,9 @@ components:
         riderType:
           type: string
           enum: [company, partner]
+        paymentMethod:
+          type: string
+          enum: [paypal, zelle, bank]
     OrderUpdate:
       type: object
       properties:
@@ -510,7 +634,7 @@ components:
               name: { type: string }
               type: { type: string }
               deliveries: { type: integer }
-              onTimeRate: { type: number }
+              onTimeRate: { type: ["number", "null"] }
     UploadUrlRequest:
       type: object
       required: [name, size, contentType]
