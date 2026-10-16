@@ -17,18 +17,13 @@ export const productsTable = pgTable("afrocart_products", {
 
 export const ordersTable = pgTable("afrocart_orders", {
   id: serial("id").primaryKey(),
-  customerUserId: text("customer_user_id"),
   customerName: text("customer_name").notNull(),
   customerAddress: text("customer_address").notNull(),
   items: jsonb("items").notNull(),
   subtotal: numeric("subtotal", { precision: 10, scale: 2 }).notNull(),
   deliveryFee: numeric("delivery_fee", { precision: 10, scale: 2 }).notNull(),
   total: numeric("total", { precision: 10, scale: 2 }).notNull(),
-  status: text("status").notNull().default("awaiting_payment"),
-  paymentMethod: text("payment_method").notNull().default("bank"),
-  paymentDetails: text("payment_details").notNull().default(""),
-  paymentReference: text("payment_reference").notNull().default(""),
-  paymentStatus: text("payment_status").notNull().default("received"),
+  status: text("status").notNull().default("received"),
   riderName: text("rider_name"),
   riderType: text("rider_type").notNull().default("unassigned"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -53,15 +48,6 @@ export const notificationsTable = pgTable("afrocart_notifications", {
   kind: text("kind").notNull(),
   read: boolean("read").notNull().default(false),
   audience: text("audience").notNull().default("all"),
-  recipientUserId: text("recipient_user_id"),
-});
-
-export const paymentMethodsTable = pgTable("afrocart_payment_methods", {
-  method: text("method").primaryKey(),
-  label: text("label").notNull(),
-  details: text("details").notNull().default(""),
-  enabled: boolean("enabled").notNull().default(false),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
 export const categoriesTable = pgTable("afrocart_categories", {
@@ -81,5 +67,4 @@ export type InsertOrder = z.infer<typeof insertOrderSchema>;
 export type Order = typeof ordersTable.$inferSelect;
 export type Rider = typeof ridersTable.$inferSelect;
 export type Notification = typeof notificationsTable.$inferSelect;
-export type PaymentMethod = typeof paymentMethodsTable.$inferSelect;
 export type Category = typeof categoriesTable.$inferSelect;
